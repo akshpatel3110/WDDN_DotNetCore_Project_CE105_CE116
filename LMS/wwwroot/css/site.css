@@ -1,0 +1,363 @@
+﻿* {
+    /*font-family: 'Happy Monkey', cursive;*/
+    font-family: 'Amatic SC', cursive;
+
+/*    text-shadow: 0 0 4px rgba(0, 0, 0, 0.72), 0 0 14px rgba(0, 0, 0, 0.45)*/
+}
+    *::-webkit-scrollbar {
+        display: none;
+    }
+
+html, body {
+    height: 100%;
+    margin:0;
+}
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #fbfbf0;
+    /*    min-height: 100vh;*/
+}
+
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Provide sufficient contrast against white background */
+a {
+    color: #52c29a !important;
+    text-decoration: none;
+}
+
+.btn-primary {
+    color: #fff !important;
+    background-color: #52c29a;
+    border: 1px solid white;
+}
+
+.container.main {
+    /*    main wrapper will take all the space possible and rest just what is needed*/
+    flex: 1;
+    margin-bottom: 100px;
+    margin-top: 100px;
+}
+
+/* footer styles
+-------------------------------------------------- */
+.footer {
+    display: flex;
+    /*    padding: 0;
+    bottom: 0;*/
+    background-color: #52c29a;
+    color: white;
+    height: auto;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    /*    flex-shrink: 0;*/
+}
+
+.child{
+    display: inline-block;
+    flex: 1;
+    margin: 10px;
+}
+    .child.contact {
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+        
+        
+    }
+    .child.map{
+        flex:2;
+    }
+    .child.subs {
+        margin-left: 2em;
+        margin-right: 3em;
+    }
+.last-child{
+    width: 100%;
+    text-align: center;
+}
+    .last-child > p > small{
+        color: whitesmoke;
+    }
+
+.small-logo {
+    display: inline-block;
+    vertical-align: middle;
+}
+/*footer ends*/
+
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+li.nav-item.logout{
+    position: absolute;
+    top:10px;
+    right:10px;
+    list-style: none;
+}
+
+.error {
+    color: red;
+
+}
+
+/*icons*/
+
+
+#menu-toggle {
+    font-size: 36px;
+    color: floralwhite;
+    cursor: pointer;
+}
+
+.employee {
+    vertical-align: bottom;
+    font-size: 24px !important;
+    padding-right: 5px;
+}
+
+#nopad {
+    padding-left: 3px;
+    padding-right: 3px;
+    margin-left: 0px;
+    margin-right: 0px;
+    text-align: left;
+}
+
+#log {
+    text-decoration:none;
+    color:black;
+}
+
+.side-icons {
+    vertical-align: bottom;
+    font-size: 24px !important;
+    padding-right: 5px;
+    padding-left: 5px;
+    float:right;
+}
+
+/*social media icons*/
+.social{
+    position:absolute;
+    top: 90%;
+    transform:translate(10%);
+}
+
+.social > div{
+      margin: 0px 10px;
+      width:40px;
+      height:40px;
+      background:#eee;
+      text-align:center;
+      line-height:40px;
+      border-radius:50%;
+      color:#fff;
+      transition:all 300ms ease-in-out;
+}
+div.fa-github {
+    background: mediumseagreen;
+}
+
+div.fa-stack-overflow {
+    background: darkorange;
+}
+
+div.fa-linkedin-in{
+    background: #55acee;
+}
+
+div.fa-github:hover {
+    color: mediumseagreen;
+    background: #fff;
+    border: 1px solid mediumseagreen;
+}
+div.fa-stack-overflow:hover {
+    color: darkorange;
+    background: #fff;
+    border: 1px solid darkorange;
+}
+div.fa-linkedin-in:hover {
+    color: #55acee;
+    background: #fff;
+    border: 1px solid #55acee;
+}
+
+/*noblack background form modal*/
+.modal-backdrop {
+    /* bug fix - no overlay */
+    display: none;
+}
+
+/*icon eye*/
+.see-homework{
+    cursor: pointer;
+}
+
+.biggerFont{
+    font-size:20px;
+}
+
+.main-picture {
+    background-image: url(../media/shool.jpg);
+    background-size: cover;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    color: #fff;
+    text-align: center;
+    box-shadow: inset 0 0 0 2000px rgba(0,0,0, 0.3);
+    min-height: 80vh;
+    display: none;
+}
+
+        .main-picture >p.smaller {
+            font-size: 2em;
+            margin-top: 35%;
+        }
+
+.navbar {
+    /*    background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(45,253,170,1) 100%);*/
+    display: block !important;
+    background: #52c29a;
+    padding: 0px 5rem 0px 5rem;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+}
+
+.navbar-nav {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    
+}
+
+.center-nav {
+    display: flex;
+    align-items: center;
+}
+    .center-nav p {
+        text-transform: uppercase;
+        font-family: 'Amatic SC', cursive;
+/*        text-shadow: 0 0 4px rgba(0, 0, 0, 0.72), 0 0 14px rgba(0, 0, 0, 0.45);*/
+        color: white;
+        font-size: 2em;
+        margin: 0.5em;
+        
+    }
+
+.right-nav > a {
+    color: white !important;
+    font-size: 1.5em;
+    display: inline-block !important;
+
+}
+/*homework notification*/
+.book-homework {
+    font-size: 35px;
+    color: white;
+    cursor: pointer;
+    padding-right: 8px;
+    padding-top: 8px;
+    position: relative;
+    display: none;
+    margin-right: 7px;
+}
+
+#txt {
+    background-color: red;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: right;
+    color: white;
+    border-radius: 25px;
+    position: absolute;
+    padding: 5px;
+    
+    bottom: -14px;
+    right: -8px;
+}
+/*end of homework notf*/
+
+/*dropdown menu*/
+.navbar-nav .dropdown-menu {
+     position: absolute !important; 
+     float: none;
+}
+
+
+/*a.navbar-brand {
+    background: url(../media/logo-small.png);
+}*/
+
+@media (max-width: 992px) {
+    .collapse {
+        display: block !important;
+    }
+    
+}
+
+@media (max-width: 992px) {
+    .collapse {
+        display: block !important;
+    }
+}
+
+@media (max-width: 555px) {
+    .footer {
+        flex-direction: column;
+    }
+
+    .map {
+        flex-basis: 20%;
+    }
+}
+
+@media (max-width: 760px) {
+    .navbar-nav{
+        flex-direction: column !important;
+    }
+}
+
+@media (max-width: 540px) {
+    .center-nav {
+        flex-direction: column !important;
+    }
+}
+
+
+
+
+/** 
+    HACK GOOD ONE
+    {
+    background: #000 !important;
+    color: #0f0 !important;
+    outline: solid #f00 1px !important;
+}*/

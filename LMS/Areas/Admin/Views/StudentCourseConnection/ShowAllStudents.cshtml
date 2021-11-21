@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Student>
+
+@{
+    ViewData["Title"] = "Students";
+}
+
+<h1 class="display-4 pb-5">All current students</h1>
+
+<div class="row">
+    <div class="col-3">
+        @await Component.InvokeAsync("Courses")
+    </div>
+    <div class="col">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-4 card ml-2 mb-2">
+                    <img src="~/media/students/@item.Image" height="90" width="80" />
+                    <h4>@item.FirstName @item.LastName</h4>
+                    <div>
+                        Telephone: @item.PhoneNumber
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

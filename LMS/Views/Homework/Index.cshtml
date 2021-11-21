@@ -1,0 +1,323 @@
+﻿@model IEnumerable<Homework>
+
+@{
+    ViewData["Title"] = "Homework";
+}
+
+<h2 class="homework-title">Manage homeworks</h2>
+@*==========CREATE HOMEWORK MODAL=========*@
+<div class="modal fade" tabindex="-1" role="dialog"
+     data-bind="modal:showDialog" id="createHomeworkModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Create new homework</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <form method="post" name="create-new-homework" id="create-home-form">
+
+
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input data-bind="value:Title" type="text" class="form-control"
+                               name="title" id="homeworkTitle" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Text Content</label>
+                        <input data-bind="event:{ change: $root.focusOnTextArea }" type="file"
+                               name="content" id="inputFile" />
+                        <textarea data-bind="textInput: TextContent" style="width: 470px; height: 150px;"
+                                  class="form-control" name="TextContent" id="homeworkContent"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Course</label>
+                        <select class="form-control" data-bind="options: coursesAvailable,
+                               optionsText: function(item) {
+                                   return item.Name() + ' (level: ' + item.Level() + ')'
+                               },
+                               value: selectedCourse,
+                               optionsCaption: 'Choose...'">
+                        </select>
+
+                        <div data-bind="visible: selectedCourse">
+                            <!-- Appears when you select something -->
+                            You have chosen a course on level
+                            <span data-bind="text: selectedCourse() ? selectedCourse().Level() : 'unknown'"></span>.
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Image</label>
+                        <input style="border:none" type="file" data-bind="event:{ change: $root.fileSelect }"
+                               class="form-control" id="homeworkCreateImg" /><br>
+                        <output id="list"></output>
+
+
+                        <img data-bind="attr: {src: $root.currentFileSrc()}" height="200" id="targetImg" />
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <input type="button" value="Cancel" class="btn btn-default" data-dismiss="modal">
+                <input form="create-home-form" type="submit" value="Add" class="btn btn-success"
+                       id="createNewStudent" data-bind="click : submit">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@*====== STUDENT/TEACHER VIEW ======*@
+
+<ul class="folders">
+    @*below is not a comment it is legit ko syntax :D*@
+    <!-- ko foreach: folders -->
+    <li data-bind="text: $data,
+            css: { selected: $data == $root.chosenFolderId() },
+            click: $root.goToFolder">
+    </li>
+    <!-- /ko -->
+
+    <li data-bind="click: function(){showDialog(true)}, ifnot: isStudentStatus ">
+        <i class="material-icons" data-toggle="tooltip" title="New">&#xE147</i>
+        <span>New</span>
+    </li>
+
+</ul>
+
+<!-- Homework grid -->
+<table data-bind="ifnot: toggleDetailedView" class="mails">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Course</th>
+            <!-- ko if: isTeacherStatus -->
+            <th>Creation Date</th>
+            <!-- /ko -->
+            <!-- ko if: isStudentStatus -->
+            <th>Teacher</th>
+            <!-- /ko -->
+        </tr>
+    </thead>
+
+    <tbody data-bind="foreach: homeworks">
+        <tr data-bind="click: $root.goToHomework">
+            <td data-bind="text: Title"></td>
+            <td data-bind="text: Course"></td>
+            <!-- ko if: $root.isTeacherStatus -->
+            <td data-bind="text: CreationDate"></td>
+            <!-- /ko -->
+            <!-- ko if: $root.isStudentStatus -->
+            <td data-bind="text: TeacherName"></td>
+            <!-- /ko -->
+
+        </tr>
+    </tbody>
+
+
+</table>
+
+
+<!-- Chosen homework -->
+<div data-bind="if: toggleDetailedView">
+    <h2 style="        color: #52c29a;">Assignment: </h2>
+    <div class="viewMail" data-bind="with: chosenHomeworkData">
+        <div class="mailInfo biggerFont">
+            <p class="hom-details-title" data-bind="text: Title()"></p>
+            <div class="row ">
+                <p class="col-6">
+                    <label class="mr-1">Course:</label> <span data-bind="text: Course()"></span><br />
+                    <label>Content: </label> <br /><span data-bind="text: TextContent()"></span>
+                </p>
+                <p class="col-6" data-bind="if: $root.isFileAttached">
+                    <label class="mr-5">Attached file:</label>
+                    <img data-bind="attr: {src: $root.chosenHomeworkImageSrc()}" style="max-width:80%;max-height:80%" />
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+@*=======TEACHER VIEW=======*@
+<div class="biggerFont" data-bind="if: isTeacherStatus">
+    <div data-bind="if: toggleDetailedView">
+
+        <div class="row">
+            <div class="col-6">
+                <div class="card mt-3 mr-3">
+                    <div class="card-header">
+                        <h4>Select students for this assignment:</h4>
+                    </div>
+
+                    <div data-bind="if: studentNotAssignedYet().length > 0" class="heading ml-2 mb-2 mt-1 pretty p-default p-fill">
+                        <input type="checkbox" data-bind="checked: SelectAll" title="Select all/none" />
+                        <div class="state p-info">
+                            <label>Select all</label>
+                        </div>
+
+                    </div>
+
+                    <div data-bind="if: studentNotAssignedYet().length <= 0" class="heading">
+                        <p>This homework is assigned to all available students </p>
+                    </div>
+
+                    <div data-bind="foreach: studentNotAssignedYet">
+                        <div class="pretty p-icon p-jelly p-round p-bigger ml-2 mb-2" style="display:block;">
+                            <input type="checkbox" data-bind="checked: $parent.selectedStudents, checkedValue: $data" />
+                            <div class="state p-info">
+                                <i class="icon material-icons">done</i>
+                                <label data-bind="text: FullName"></label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div data-bind="if: studentNotAssignedYet().length > 0" class="col-6 mt-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>You selected:</h4>
+                    </div>
+
+                    <div data-bind="foreach: selectedStudents" class="mt-1">
+                        <div class="card mb-1 ml-1 mr-1">
+                            <div class="card-body">
+                                <p class="card-text" data-bind="text: FullName"></p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary" data-bind="click : saveStudents">Confirm</button>
+                </div>
+            </div>
+        </div>
+        <h2 class="mt-3">Students who already got this assigment: </h2>
+        <div class="row">
+            <div class="col-6">
+                <table class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Status</th>
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: studentsPerHomework">
+
+                        <tr scope="row">
+                            <td data-bind="text: FullName"></td>
+                            <td>
+                                <h5>
+                                    <span data-bind="text: Status, css:{
+                                        'badge' : true,
+                                        'badge-success' : CurrentHomeworkIsDone(),
+                                        'badge-danger' : !CurrentHomeworkIsDone()
+
+                                        }">
+                                    </span>
+                                </h5>
+                            </td>
+                            <td class="see-homework" data-bind="if: CurrentHomeworkIsDone, click: $root.showStudentHomework">
+                                <span title="See student's solution" class="material-icons" style="color: steelblue;">visibility</span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div data-bind="if: $root.toggleStudentHomework" class="col-6">
+                <div class="viewMail" data-bind="foreach: $root.studentSolutiuonToShow">
+                    <h2 id="studentSolution" data-bind="text: $root.currentStudentMessage()"> </h2>
+                    <div class="mailInfo" >I'm attached file with solution.</div>
+                    <div class="mt-3" data-bind="if: ImageSrc()">
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Attached pictures:</h2>
+                            </div>
+                            <div class="card-body d-flex align-items-center justify-content-center">
+                                <img data-bind="attr: {src: ImageSrc()}" class="img-fluid justify-content-center" height="300" width="300" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@*=======STUDENT VIEW=======*@
+<div data-bind="if: isStudentStatus">
+    <div data-bind="if: toggleDetailedView">
+        <h2>Your solution</h2>
+        <!-- ko ifnot: $root.isCurrenHomeworkDone -->
+        <form class="solutionX" id="homework-solution">
+
+            <div class="form-group" id="editor1">
+                <textarea data-bind="textInput: studentSolutionText" style="width: 100%; height: 100%"
+                          class="form-control" name="content" id="homeworkContent"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Image</label>
+                <input style="border:none" type="file" data-bind="event:{ change: $root.fileSelect }"
+                       class="form-control" id="homeworkCreateImg" /><br>
+                <output id="list"></output>
+
+                <img data-bind="attr: {src: $root.currentFileSrc()}" id="targetImg" style="max-width:100%" />
+            </div>
+        </form>
+
+        <div class="button_cont" align="center">
+            <input form="homework-solution" type="submit" value="Submit now" class="example_b"
+                   id="submitSolution" data-bind="click : savaStudentSolution">
+        </div>
+        <!-- /ko -->
+        <!-- ko if: $root.isCurrenHomeworkDone -->
+        <p style="text-align:center">You have already submitted this assigment.</p>
+        <!-- /ko -->
+    </div>
+</div>
+<div id="loader" class="ldio-bh5k7c8rd5c hidden" style="left: 50%;">
+    <div></div><div></div>
+</div>
+
+
+
+
+@section Scripts{
+
+    <script src="~/js/Homework/homeworkIndex.js"></script>
+
+    <script>
+
+        document.getElementById('inputFile')
+            .addEventListener('change', function () {
+
+                var fr = new FileReader();
+                fr.onload = function () {
+                    document.getElementById('homeworkContent')
+                        .innerHTML = fr.result;
+                }
+
+                fr.readAsText(this.files[0]);
+            })
+        
+    </script>
+
+
+
+}

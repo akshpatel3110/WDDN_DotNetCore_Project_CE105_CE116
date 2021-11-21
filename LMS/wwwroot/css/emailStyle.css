@@ -1,0 +1,163 @@
+﻿.homework-title {
+    color: #52c29a;
+}
+
+.folders {
+    background-color: #bbb;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 7px;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #228B22), color-stop(0.4, #98FB98), color-stop(1,#52c29a));
+    margin: 10px 0 16px 0;
+    font-size: 0px;
+}
+
+    .folders li:hover {
+        background-color: #ddd;
+    }
+
+    .folders li:first-child {
+        border-left: none;
+        border-radius: 7px 0 0 7px;
+    }
+
+    .folders li {
+        font-size: 20px;
+        font-weight: bold;
+        display: inline-block;
+        padding: 0.5em 1.5em;
+        cursor: pointer;
+        color: white;
+/*        text-shadow: #f7f7f7 0 1px 1px;*/
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #888;
+    }
+
+    .folders li:last-child {
+        border-right: none
+    }
+
+    .folders li {
+        *display: inline !important;
+    }
+    /* IE7 only */
+    .folders .selected {
+        background-color: #52c29a !important;
+        color: white;
+        text-shadow: none;
+        border-right-color: #aaa;
+        border-left: none;
+        box-shadow: inset 1px 2px 6px #228B22;
+    }
+
+.mails {
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 0;
+    color: #52c29a;
+    font-size: 18px;
+}
+
+    .mails thead {
+        background-color: #52c29a;
+        font-weight: bold;
+        color: white;
+    }
+
+    .mails tbody tr:hover {
+        cursor: pointer;
+        background-color: #20B2AA !important;
+        color: White;
+    }
+
+    .mails th, .mails td {
+        text-align: left;
+        padding: 0.4em 0.3em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .mails th {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #888;
+        padding: 0.4em 0 0.3em 0.7em;
+    }
+
+/*        .mails th:nth-child(1), .mails td:nth-child(1) {
+            width: 20%;
+            color:red;
+        }
+
+        .mails th:nth-child(2), .mails td:nth-child(2) {
+            width: 15%;
+        }
+
+        .mails th:nth-child(3), .mails td:nth-child(3) {
+            width: 45%;
+        }
+
+        .mails th:nth-child(4), .mails td:nth-child(4) {
+            width: 15%;
+        }*/
+
+        .mails th:last-child {
+            border-right: none
+        }
+
+    .mails tr:nth-child(even) {
+        background-color: #EEE;
+    }
+
+.viewMail .mailInfo {
+    background-color: #dae0e8;
+    padding: 1em 1em 0.5em 1.25em;
+    border-radius: 1em;
+}
+
+    .viewMail .mailInfo h1 {
+        color: #52c29a;
+        margin-top: 0.2em;
+        font-size: 130%;
+    }
+
+    .viewMail .mailInfo label {
+        font-weight: bold;
+        min-width: 2.75em;
+        text-align: right;
+        display: inline-block;
+    }
+.hom-details-title {
+    font-size: 2em;
+}
+
+.viewMail .message {
+    padding: 0 1.25em;
+}
+
+.solutionX {
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #228B22), color-stop(0.4, #98FB98), color-stop(1,#52c29a));
+    padding: 1em 1em 0.5em 1.25em;
+    border-radius: 1em;
+}
+
+.example_b {
+    color: #fff !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: #52c29a;
+    padding: 20px;
+    border-radius: 50px;
+    display: inline-block;
+    border: none;
+    transition: all 0.4s ease 0s;
+    margin-top: 7px;
+}
+    .example_b:hover {
+        text-shadow: 0px 0px 6px rgba(255, 255, 255, 1);
+        -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+        transition: all 0.4s ease 0s;
+    }
+

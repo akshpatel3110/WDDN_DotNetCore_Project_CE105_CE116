@@ -1,0 +1,325 @@
+﻿@model IEnumerable<Course>
+
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<h1 style="display: inline;">Courses</h1>
+
+<p style="display: inline;">
+    <a href="#createCourseModal" class="btn btn-primary" data-toggle="modal" >
+        <span>Add new</span>
+    </a>
+</p>
+<table id="myDataTable" >
+    <thead>
+        <tr>
+
+            <th>
+                Name
+            </th>
+            <th>
+                Level
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Price
+            </th>
+
+            <th>
+                Teacher
+            </th>
+            <th>
+
+            </th>
+            <th>
+
+            </th>
+            <th>
+
+            </th>
+            <th>
+
+            </th>
+
+        </tr>
+    </thead>
+
+</table>
+<div id="loader" class="ldio-bh5k7c8rd5c hidden" style="left: 90%;top:-620px">
+    <div></div><div></div>
+</div>
+
+
+@*---------------->ADD STUDENT MODAL------------*@
+<div id="addStudentModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-controller="StudentCourseConnection" asp-action="AddIds">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalTitle"></h4>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">
+                        &times;
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <input type="hidden" id="courseId" value="" name="courseId" />
+                        <label>Student Name</label>
+                        <select asp-items="@ViewBag.StudentId" class="form-control" name="studentId">
+                            <option value="-1">--Choose student--</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <input type="button" value="Cancel" class="btn btn-default" data-dismiss="modal">
+                    <input type="submit" value="Add" class="btn btn-success">
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@*---------------->CREATE COURSE MODAL------------*@
+<div id="createCourseModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" name="create-new-course" id="create-course-form">
+                <div class="modal-header">
+                    <h4 class="modal-title">Create new course</h4>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">
+                        &times;
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>Course name</label>
+                        <input type="text" class="form-control" name="name" id="name" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Level</label>
+                        <select class="form-control" name="level">
+                            <option selected="selected" disabled="disabled">---Select Level---</option>
+                            <option>Begginer</option>
+                            <option>Intermediate</option>
+                            <option>Advanced</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control" name="description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="number" class="form-control" name="price" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Teacher</label>
+                        <select asp-items="@ViewBag.TeacherId" class="form-control" name="teacherId">
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <input type="button" value="Cancel" class="btn btn-default" data-dismiss="modal">
+                    <input type="submit" value="Add" class="btn btn-success" id="addCourse">
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@*---------------->EDIT COURSE MODAL------------*@
+<div id="editCourseModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" name="edit-course" asp-controller="Courses" asp-action="Edit" id="editCourseForm">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit course</h4>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">
+                        &times;
+                    </button>
+                </div>
+
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>Course name</label>
+                        <input type="text" class="form-control" name="name" data-val="true"
+                               id="editCourseName" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Level</label>
+                        <select class="form-control" name="level" id="level">
+                            <option selected="selected" disabled="disabled">---Select Level---</option>
+                            <option>Begginer</option>
+                            <option>Intermediate</option>
+                            <option>Advanced</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control" required="required" name="description" id="description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="number" class="form-control" required="required" name="price" id="price" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Teacher</label>
+                        <select asp-items="@ViewBag.TeacherId" class="form-control" name="teacherId" id="teacherId">
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <input type="button" value="Cancel" class="btn btn-default" data-dismiss="modal">
+                    <input type="submit" value="Update" class="btn btn-success" id="editCourse">
+
+                    <input type="hidden" name="id" id="idEdit" />
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@*---------------->DETAILS COURSE MODAL------------*@
+<div id="detailsCourseModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="detailsModalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    &times;
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <dl>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.Id)
+                        </dt>
+                        <dd class="col-sm-10" id="id">
+
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.Name)
+                        </dt>
+                        <dd class="col-sm-10" id="name">
+
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.Level)
+                        </dt>
+                        <dd class="col-sm-10" id="level">
+
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.Description)
+                        </dt>
+                        <dd class="col-sm-10" id="description">
+
+                        </dd>
+                        <dt class="col-sm-2">
+                            Price
+                        </dt>
+                        <dd class="col-sm-10" id="price">
+
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.Slug)
+                        </dt>
+                        <dd class="col-sm-10" id="slug">
+
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.Sorting)
+                        </dt>
+                        <dd class="col-sm-10" id="sorting">
+
+                        </dd>
+                        <dt class="col-sm-2">
+                            Teacher Id
+                        </dt>
+                        <dd class="col-sm-10" id="teacherId">
+
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+                <input type="button" value="Cancel" class="btn btn-default" data-dismiss="modal">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@*---------------->DELETE COURSE MODAL------------*@
+<div id="deleteCourseModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-controller="Courses" asp-action="Delete">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="deleteModalTitle"></h4>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">
+                        &times;
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>Do you really want to delete this course?</p>
+                    <p class="text=warning"><small>This action cannot be undone.</small></p>
+                </div>
+
+                <div class="modal-footer">
+                    <input type="button" value="Cancel" class="btn btn-default" data-dismiss="modal">
+                    <input type="submit" value="Delete" class="btn btn-danger" id="deleteCourse">
+                    <input type="hidden" name="id" id="deleteId" />
+                    <input type="hidden" name="courseName" id="deleteCourseName" />
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/js/AdminArea/coursesIndex.js"></script>
+
+}

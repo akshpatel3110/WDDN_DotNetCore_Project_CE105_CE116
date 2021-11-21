@@ -1,0 +1,84 @@
+﻿@*@model IEnumerable<GalileuszSchool.Models.LessonPlan>*@
+@model GalileuszSchool.Areas.Admin.ViewModels.LessonPlanViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Lesson Plan</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+
+
+@for (int i = 0; i < Model.LessonsList.Count; i++)
+{
+    var classRoom = Model.LessonsList[i];
+    <h2>@ViewBag.ClassRoomsList[i].ClassRoomName</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                @foreach (var day in Enum.GetNames(typeof(Days)))
+                {
+                    <th>
+                        @Html.DisplayName(day)
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @foreach (int day in Enum.GetValues(typeof(Days)))
+                {
+                    <td>
+                        <table>
+                            @foreach (var lessonInDay in classRoom[day])
+                            {
+                                //int boxHeight = 5 * (lessonInDay.stopTime.Hours * 100 + ((lessonInDay.stopTime.Minutes * 100) / 60) -  lessonInDay.startTime.Hours * 100 + ((lessonInDay.startTime.Minutes * 100) / 60));
+                                double box = 60 * (lessonInDay.stopTime.Hours + ((double)lessonInDay.stopTime.Minutes / 60)
+                                        - lessonInDay.startTime.Hours + ((double)lessonInDay.startTime.Minutes) / 60);
+                                int boxHeight = (int)box;
+
+                                @if (lessonInDay.isGap)
+                                {
+                                    <tr>
+                                        <td style="padding-top: 0px; padding-bottom:0px">
+                                            <div style="height: @(boxHeight)px; overflow: hidden;">
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td style="padding-top: 0px; padding-bottom:0px">
+                                            <div style="height: @(boxHeight)px; overflow: hidden; background-color: #f5f7eb;">
+                                                @{string hStart = lessonInDay.startTime.Hours.ToString();}
+                                                @{string mStart = lessonInDay.startTime.Minutes.ToString("00");}
+                                                @{string hStop = lessonInDay.stopTime.Hours.ToString();}
+                                                @{string mStop = lessonInDay.stopTime.Minutes.ToString("00");}
+                                                <a asp-action="Details" asp-route-id="@lessonInDay.Id">@lessonInDay.Course.Name</a>
+                                                <br />
+                                                <small>
+                                                    @hStart:@mStart - @hStop:@mStop
+                                                </small>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    </td>
+                }
+            </tr>
+        </tbody>
+    </table>
+
+}
